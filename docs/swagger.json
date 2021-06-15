@@ -26,9 +26,82 @@
                     }
                 }
             }
+        },
+        "/user/register": {
+            "post": {
+                "description": "register app",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register User",
+                "parameters": [
+                    {
+                        "description": "Register User",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.RegisterValidator"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseModel"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "user.RegisterValidator": {
+            "type": "object",
+            "required": [
+                "confirmation_password",
+                "email",
+                "full_name",
+                "merchant_address",
+                "merchant_name",
+                "merchant_phone",
+                "merchant_type",
+                "password"
+            ],
+            "properties": {
+                "confirmation_password": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "full_name": {
+                    "type": "string"
+                },
+                "merchant_address": {
+                    "type": "string"
+                },
+                "merchant_name": {
+                    "type": "string"
+                },
+                "merchant_phone": {
+                    "type": "string"
+                },
+                "merchant_type": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
         "utils.ResponseModel": {
             "type": "object",
             "properties": {

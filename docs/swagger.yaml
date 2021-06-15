@@ -1,4 +1,32 @@
 definitions:
+  user.RegisterValidator:
+    properties:
+      confirmation_password:
+        type: string
+      email:
+        type: string
+      full_name:
+        type: string
+      merchant_address:
+        type: string
+      merchant_name:
+        type: string
+      merchant_phone:
+        type: string
+      merchant_type:
+        type: string
+      password:
+        type: string
+    required:
+    - confirmation_password
+    - email
+    - full_name
+    - merchant_address
+    - merchant_name
+    - merchant_phone
+    - merchant_type
+    - password
+    type: object
   utils.ResponseModel:
     properties:
       code:
@@ -28,4 +56,26 @@ paths:
       summary: Pinging App
       tags:
       - Default
+  /user/register:
+    post:
+      consumes:
+      - application/json
+      description: register app
+      parameters:
+      - description: Register User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/user.RegisterValidator'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.ResponseModel'
+      summary: Register User
+      tags:
+      - Auth
 swagger: "2.0"

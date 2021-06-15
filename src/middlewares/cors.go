@@ -18,7 +18,8 @@ func CORSMiddleware() gin.HandlerFunc {
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
 
 		if c.Request.Method == "OPTIONS" {
-			utils.ResponseFormatter(http.StatusOK, "OPTIONS METHOD", nil, nil, c)
+			response := utils.Response{C: c}
+			response.ResponseFormatter(http.StatusOK, "OPTIONS METHOD", nil, nil)
 		} else {
 			c.Next()
 		}

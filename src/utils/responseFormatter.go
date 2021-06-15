@@ -11,10 +11,15 @@ type ResponseModel struct {
 	Error   string
 }
 
-//*Response Formatter return a bunch of templated responses in JSON format with status code condition
-func ResponseFormatter(code int, message string, err error, result map[string]interface{}, c *gin.Context) {
+type Response struct {
+	C *gin.Context
+}
+
+func (res *Response) ResponseFormatter(code int, message string, err error, result map[string]interface{}) {
+	ctx := res.C
+
 	if code < 400 {
-		c.AbortWithStatusJSON(code, gin.H{
+		ctx.AbortWithStatusJSON(code, gin.H{
 			"code":    code,
 			"success": true,
 			"message": message,
@@ -23,7 +28,7 @@ func ResponseFormatter(code int, message string, err error, result map[string]in
 		})
 		return
 	}
-	c.JSON(code, gin.H{
+	ctx.JSON(code, gin.H{
 		"code":    code,
 		"success": false,
 		"message": message,

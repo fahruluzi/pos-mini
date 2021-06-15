@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/fahruluzi/pos-mini/docs"
+	"github.com/fahruluzi/pos-mini/src/apps/user"
 	"github.com/fahruluzi/pos-mini/src/middlewares"
 	"github.com/fahruluzi/pos-mini/src/utils"
 	"github.com/gin-contrib/gzip"
@@ -41,7 +42,8 @@ func Router() *gin.Engine {
 	r.Use(static.Serve("/", static.LocalFile("./public", true)))
 
 	r.NoRoute(func(c *gin.Context) {
-		utils.ResponseFormatter(http.StatusNotFound, "Not Found.", nil, nil, c)
+		response := utils.Response{C: c}
+		response.ResponseFormatter(http.StatusNotFound, "Not Found.", nil, nil)
 	})
 
 	r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
@@ -49,9 +51,12 @@ func Router() *gin.Engine {
 	v1 := r.Group("/api")
 	{
 		v1.GET("/ping", func(c *gin.Context) {
-			utils.ResponseFormatter(http.StatusOK, "Pong", nil, nil, c)
+			response := utils.Response{C: c}
+			response.ResponseFormatter(http.StatusOK, "Pong", nil, nil)
 		})
 	}
+
+	user.UserAnonymusRouter(v1.Group("/user"))
 
 	return r
 }
