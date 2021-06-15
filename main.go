@@ -4,9 +4,19 @@ import (
 	"log"
 	"os"
 
+	"github.com/fahruluzi/pos-mini/src/apps/merchant"
+	"github.com/fahruluzi/pos-mini/src/apps/product"
+	"github.com/fahruluzi/pos-mini/src/apps/user"
 	"github.com/fahruluzi/pos-mini/src/utils/db"
 	"github.com/joho/godotenv"
+	"gorm.io/gorm"
 )
+
+func Migrate(db *gorm.DB) {
+	db.AutoMigrate(&merchant.Merchants{})
+	db.AutoMigrate(&user.Users{})
+	db.AutoMigrate(&product.Products{})
+}
 
 func main() {
 	err := godotenv.Load()
@@ -15,7 +25,7 @@ func main() {
 	}
 
 	db := db.Init()
-	// Migrate(db)
+	Migrate(db)
 	sqlDB, _ := db.DB()
 	defer sqlDB.Close()
 
