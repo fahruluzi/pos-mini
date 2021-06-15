@@ -1,0 +1,31 @@
+definitions:
+  utils.ResponseModel:
+    properties:
+      code:
+        type: integer
+      error:
+        type: string
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+info:
+  contact: {}
+paths:
+  /ping:
+    get:
+      consumes:
+      - application/json
+      description: ping app
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.ResponseModel'
+      summary: Pinging App
+      tags:
+      - Default
+swagger: "2.0"

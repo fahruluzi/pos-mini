@@ -4,6 +4,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type ResponseModel struct {
+	Code    int32
+	Success bool
+	Message string
+	Error   string
+}
+
 //*Response Formatter return a bunch of templated responses in JSON format with status code condition
 func ResponseFormatter(code int, message string, err error, result map[string]interface{}, c *gin.Context) {
 	if code < 400 {
