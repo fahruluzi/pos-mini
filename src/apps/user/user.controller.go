@@ -122,7 +122,7 @@ func UserLogin(c *gin.Context) {
 // * GetList godoc
 // @Summary GetList User
 // @Description login app
-// @Tags Auth
+// @Tags Users
 // @Accept  json
 // @Produce  json
 // @Security JWTAuth
@@ -130,7 +130,31 @@ func UserLogin(c *gin.Context) {
 // @Router /user [get]
 func GetListUser(c *gin.Context) {
 	response := utils.Response{C: c}
-	response.ResponseFormatter(http.StatusOK, "Register Successfully", nil, gin.H{
-		"access_token": "heheheh",
+	pg, err := utils.GeneratePaginationFromRequest(c)
+	if err != nil {
+		response.ResponseFormatter(http.StatusBadRequest, "Invalid Type Queries Pagination", err, gin.H{"err_message": err.Error()})
+		return
+	}
+
+	users, err := GetUsers(&pg)
+	if err != nil {
+		response.ResponseFormatter(http.StatusInternalServerError, "Failed Fetch Data", err, gin.H{"err_message": err.Error()})
+
+		return
+	}
+
+	countUsers, err := CountUsers()
+	if err != nil {
+		response.ResponseFormatter(http.StatusInternalServerError, "Failed Count Data", err, gin.H{"err_message": err.Error()})
+		return
+	}
+
+	countTotalPage := utils.CountTotalPage(countUsers, &pg)
+
+	response.ResponseFormatter(http.StatusOK, "List Majors", nil, gin.H{
+		"data":       users,
+		"total_data": countUsers,
+		"total_page": countTotalPage,
+		"page":       pg.Page,
 	})
 }

@@ -12,7 +12,7 @@ type Users struct {
 	Email        string             `gorm:"index:email_index;type:varchar(255);not null;unique" json:"email"`
 	Password     string             `gorm:"type:varchar(255);not null" json:"password"`
 	MerchantUuid string             `gorm:"type:varchar(36);not null" json:"merchant_uuid"`
-	Merchant     merchant.Merchants `gorm:"foreignKey:MerchantUuid;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
+	Merchant     merchant.Merchants `gorm:"->:false;<-:create;foreignKey:MerchantUuid;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 	utils.TimestampModel
 }
 
@@ -23,4 +23,12 @@ func (u *Users) BeforeCreate(tx *gorm.DB) (err error) {
 	}
 
 	return nil
+}
+
+type UsersList struct {
+	UUID         string `json:"uuid"`
+	Name         string `json:"name"`
+	Email        string `json:"email"`
+	MerchantUuid string `json:"merchant_uuid"`
+	utils.TimestampModel
 }

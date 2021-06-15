@@ -14,6 +14,6 @@ type Products struct {
 	Stock        int32              `gorm:"not null" json:"stock"`
 	Image        string             `gorm:"type:varchar(255);not null" json:"image"`
 	MerchantUuid string             `gorm:"type:varchar(36);not null" json:"merchant_uuid"`
-	Merchant     merchant.Merchants `gorm:"foreignKey:MerchantUuid;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
+	Merchant     merchant.Merchants `gorm:"->:false;<-:create;foreignKey:MerchantUuid;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 	utils.TimestampModel
 }

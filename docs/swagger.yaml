@@ -82,7 +82,7 @@ paths:
       - JWTAuth: []
       summary: GetList User
       tags:
-      - Auth
+      - Users
   /user/login:
     post:
       consumes:

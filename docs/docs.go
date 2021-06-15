@@ -66,7 +66,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "Users"
                 ],
                 "summary": "GetList User",
                 "responses": {
