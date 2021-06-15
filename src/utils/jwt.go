@@ -1,8 +1,11 @@
 package utils
 
 import (
-	jwt "github.com/dgrijalva/jwt-go"
+	"fmt"
+	"os"
 	"time"
+
+	jwt "github.com/dgrijalva/jwt-go"
 )
 
 type DataJWT struct {
@@ -14,7 +17,7 @@ type DataJWT struct {
 var APPLICATION_NAME = "POS Mini"
 var LOGIN_EXPIRATION_DURATION = time.Duration(1) * time.Hour
 var JWT_SIGNING_METHOD = jwt.SigningMethodHS256
-var JWT_SIGNATURE_KEY = []byte("secret key")
+var JWT_SIGNATURE_KEY = []byte(os.Getenv("API_JWT_SECRET"))
 
 func GenerateJWT(name string, email string) (string, error) {
 	claims := DataJWT{
@@ -37,4 +40,13 @@ func GenerateJWT(name string, email string) (string, error) {
 	}
 
 	return signedToken, nil
+}
+
+func ValidateToken(encodedToken string) (*jwt.Token, error) {
+	return jwt.Parse(encodedToken, func(token *jwt.Token) (interface{}, error) {
+		if _, isvalid := token.Method.(*jwt.SigningMethodHMAC); !isvalid {
+			return nil, fmt.Errorf("invalid token")
+		}
+		return []byte(JWT_SIGNATURE_KEY), nil
+	})
 }

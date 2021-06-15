@@ -18,6 +18,13 @@ func Migrate(db *gorm.DB) {
 	db.AutoMigrate(&product.Products{})
 }
 
+// @securityDefinitions.apikey JWTAuth
+// @in header
+// @name access_token
+
+// @contact.name API Support
+// @contact.email fahrul.fauz@gmail.com
+// @termsOfService http://swagger.io/terms/
 func main() {
 	err := godotenv.Load()
 	if err != nil {

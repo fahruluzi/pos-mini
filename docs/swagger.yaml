@@ -46,7 +46,10 @@ definitions:
         type: boolean
     type: object
 info:
-  contact: {}
+  contact:
+    email: fahrul.fauz@gmail.com
+    name: API Support
+  termsOfService: http://swagger.io/terms/
 paths:
   /ping:
     get:
@@ -63,6 +66,23 @@ paths:
       summary: Pinging App
       tags:
       - Default
+  /user:
+    get:
+      consumes:
+      - application/json
+      description: login app
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.ResponseModel'
+      security:
+      - JWTAuth: []
+      summary: GetList User
+      tags:
+      - Auth
   /user/login:
     post:
       consumes:
@@ -107,4 +127,9 @@ paths:
       summary: Register User
       tags:
       - Auth
+securityDefinitions:
+  JWTAuth:
+    in: header
+    name: access_token
+    type: apiKey
 swagger: "2.0"

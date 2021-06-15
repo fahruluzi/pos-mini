@@ -14,10 +14,6 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-// @contact.name API Support
-// @contact.email fahrul.fauz@gmail.com
-// @termsOfService http://swagger.io/terms/
-
 // * PingApp godoc
 // @Summary Pinging App
 // @Description ping app
@@ -55,8 +51,11 @@ func Router() *gin.Engine {
 			response.ResponseFormatter(http.StatusOK, "Pong", nil, nil)
 		})
 	}
-
+	v1.Use(middlewares.JWTAuthMiddleware(false))
 	user.UserAnonymusRouter(v1.Group("/user"))
+
+	v1.Use(middlewares.JWTAuthMiddleware(true))
+	user.UserRouter(v1.Group("/user"))
 
 	return r
 }

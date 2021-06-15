@@ -118,3 +118,19 @@ func UserLogin(c *gin.Context) {
 		},
 	})
 }
+
+// * GetList godoc
+// @Summary GetList User
+// @Description login app
+// @Tags Auth
+// @Accept  json
+// @Produce  json
+// @Security JWTAuth
+// @Success 200 {object} utils.ResponseModel
+// @Router /user [get]
+func GetListUser(c *gin.Context) {
+	response := utils.Response{C: c}
+	response.ResponseFormatter(http.StatusOK, "Register Successfully", nil, gin.H{
+		"access_token": "heheheh",
+	})
+}

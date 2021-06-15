@@ -6,3 +6,7 @@ func UserAnonymusRouter(router *gin.RouterGroup) {
 	router.POST("/register", UserCreate)
 	router.POST("/login", UserLogin)
 }
+
+func UserRouter(router *gin.RouterGroup) {
+	router.GET("/", GetListUser)
+}
