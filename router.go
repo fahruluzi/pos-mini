@@ -7,6 +7,7 @@ import (
 	"github.com/fahruluzi/pos-mini/src/middlewares"
 	"github.com/fahruluzi/pos-mini/src/utils"
 	"github.com/gin-contrib/gzip"
+	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -37,6 +38,7 @@ func Router() *gin.Engine {
 	r.Use(middlewares.CORSMiddleware())
 	r.Use(gzip.Gzip(gzip.DefaultCompression))
 	r.Use(middlewares.RequestIDMiddleware())
+	r.Use(static.Serve("/", static.LocalFile("./public", true)))
 
 	r.NoRoute(func(c *gin.Context) {
 		utils.ResponseFormatter(http.StatusNotFound, "Not Found.", nil, nil, c)
