@@ -3,6 +3,7 @@ package user
 import (
 	"github.com/fahruluzi/pos-mini/src/apps/merchant"
 	"github.com/fahruluzi/pos-mini/src/utils"
+	"gorm.io/gorm"
 )
 
 type Users struct {
@@ -13,4 +14,13 @@ type Users struct {
 	MerchantUuid string             `gorm:"type:varchar(36);not null" json:"merchant_uuid"`
 	Merchant     merchant.Merchants `gorm:"foreignKey:MerchantUuid;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 	utils.TimestampModel
+}
+
+func (u *Users) BeforeCreate(tx *gorm.DB) (err error) {
+	u.UUID = utils.GenerateUuid()
+	if !utils.ValidateUuid(u.UUID) {
+		return err
+	}
+
+	return nil
 }

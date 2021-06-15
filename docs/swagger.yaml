@@ -1,4 +1,14 @@
 definitions:
+  user.LoginValidator:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
   user.RegisterValidator:
     properties:
       confirmation_password:
@@ -13,8 +23,6 @@ definitions:
         type: string
       merchant_phone:
         type: string
-      merchant_type:
-        type: string
       password:
         type: string
     required:
@@ -24,7 +32,6 @@ definitions:
     - merchant_address
     - merchant_name
     - merchant_phone
-    - merchant_type
     - password
     type: object
   utils.ResponseModel:
@@ -56,6 +63,28 @@ paths:
       summary: Pinging App
       tags:
       - Default
+  /user/login:
+    post:
+      consumes:
+      - application/json
+      description: login app
+      parameters:
+      - description: Login User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/user.LoginValidator'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.ResponseModel'
+      summary: Login User
+      tags:
+      - Auth
   /user/register:
     post:
       consumes:

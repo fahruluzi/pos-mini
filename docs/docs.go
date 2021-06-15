@@ -47,6 +47,40 @@ var doc = `{
                 }
             }
         },
+        "/user/login": {
+            "post": {
+                "description": "login app",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login User",
+                "parameters": [
+                    {
+                        "description": "Login User",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.LoginValidator"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseModel"
+                        }
+                    }
+                }
+            }
+        },
         "/user/register": {
             "post": {
                 "description": "register app",
@@ -83,6 +117,21 @@ var doc = `{
         }
     },
     "definitions": {
+        "user.LoginValidator": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
         "user.RegisterValidator": {
             "type": "object",
             "required": [
@@ -92,7 +141,6 @@ var doc = `{
                 "merchant_address",
                 "merchant_name",
                 "merchant_phone",
-                "merchant_type",
                 "password"
             ],
             "properties": {
@@ -112,9 +160,6 @@ var doc = `{
                     "type": "string"
                 },
                 "merchant_phone": {
-                    "type": "string"
-                },
-                "merchant_type": {
                     "type": "string"
                 },
                 "password": {
