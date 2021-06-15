@@ -50,3 +50,16 @@ func CountUsers() (int, error) {
 
 	return int(usersCount), nil
 }
+
+func GetUser(uuid string) (UsersList, error) {
+	db := db.GetDB()
+	var getMajor UsersList
+
+	err := db.Model(&Users{}).Where("uuid = ?", uuid).First(&getMajor).Error
+
+	if err != nil {
+		return UsersList{}, err
+	}
+
+	return getMajor, nil
+}

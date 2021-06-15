@@ -120,8 +120,8 @@ func UserLogin(c *gin.Context) {
 }
 
 // * GetList godoc
-// @Summary GetList User
-// @Description login app
+// @Summary Get List User
+// @Description List user
 // @Tags Users
 // @Accept  json
 // @Produce  json
@@ -157,4 +157,33 @@ func GetListUser(c *gin.Context) {
 		"total_page": countTotalPage,
 		"page":       pg.Page,
 	})
+}
+
+// * Get Detail godoc
+// @Summary Get Detail User
+// @Description Detail user
+// @Tags Users
+// @Param uuid path string true "User UUID"
+// @Accept  json
+// @Produce  json
+// @Security JWTAuth
+// @Success 200 {object} utils.ResponseModel
+// @Router /user/{uuid} [get]
+func GetUserDetail(c *gin.Context) {
+	response := utils.Response{C: c}
+	getUuid := c.Param("uuid")
+
+	ok := utils.ValidateUuid(getUuid)
+	if !ok {
+		response.ResponseFormatter(http.StatusBadRequest, "Invalid UUID", nil, nil)
+		return
+	}
+
+	userDetail, err := GetUser(getUuid)
+	if err != nil {
+		response.ResponseFormatter(http.StatusNotFound, "Major Not Found", err, gin.H{"err_message": err.Error()})
+		return
+	}
+
+	response.ResponseFormatter(http.StatusOK, "List Majors", nil, gin.H{"data": userDetail})
 }

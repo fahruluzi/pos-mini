@@ -9,4 +9,5 @@ func UserAnonymusRouter(router *gin.RouterGroup) {
 
 func UserRouter(router *gin.RouterGroup) {
 	router.GET("/", GetListUser)
+	router.GET("/:uuid", GetUserDetail)
 }

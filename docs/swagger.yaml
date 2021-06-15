@@ -70,7 +70,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: login app
+      description: List user
       produces:
       - application/json
       responses:
@@ -80,7 +80,30 @@ paths:
             $ref: '#/definitions/utils.ResponseModel'
       security:
       - JWTAuth: []
-      summary: GetList User
+      summary: Get List User
+      tags:
+      - Users
+  /user/{uuid}:
+    get:
+      consumes:
+      - application/json
+      description: Detail user
+      parameters:
+      - description: User UUID
+        in: path
+        name: uuid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.ResponseModel'
+      security:
+      - JWTAuth: []
+      summary: Get Detail User
       tags:
       - Users
   /user/login:

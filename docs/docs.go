@@ -58,7 +58,7 @@ var doc = `{
                         "JWTAuth": []
                     }
                 ],
-                "description": "login app",
+                "description": "List user",
                 "consumes": [
                     "application/json"
                 ],
@@ -68,7 +68,7 @@ var doc = `{
                 "tags": [
                     "Users"
                 ],
-                "summary": "GetList User",
+                "summary": "Get List User",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -135,6 +135,43 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/user.RegisterValidator"
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseModel"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{uuid}": {
+            "get": {
+                "security": [
+                    {
+                        "JWTAuth": []
+                    }
+                ],
+                "description": "Detail user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get Detail User",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User UUID",
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
