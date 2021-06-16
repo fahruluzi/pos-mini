@@ -105,6 +105,15 @@ paths:
       consumes:
       - application/json
       description: List product
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Page
+        in: query
+        name: page
+        type: integer
       produces:
       - application/json
       responses:
@@ -251,6 +260,15 @@ paths:
       consumes:
       - application/json
       description: List user
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Page
+        in: query
+        name: page
+        type: integer
       produces:
       - application/json
       responses:

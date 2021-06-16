@@ -17,6 +17,8 @@ import (
 // @Summary Get List Product
 // @Description List product
 // @Tags Products
+// @Param limit query int false "Limit"
+// @Param page query int false "Page"
 // @Accept  json
 // @Produce  json
 // @Security JWTAuth

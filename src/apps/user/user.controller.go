@@ -124,6 +124,8 @@ func UserLogin(c *gin.Context) {
 // @Summary Get List User
 // @Description List user
 // @Tags Users
+// @Param limit query int false "Limit"
+// @Param page query int false "Page"
 // @Accept  json
 // @Produce  json
 // @Security JWTAuth

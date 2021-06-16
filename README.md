@@ -5,6 +5,7 @@
 2. gorm
 3. postgreSQL
 4. adminer
+5. swagger
 
 # INITIAL STEP
 1. Clone
@@ -19,4 +20,5 @@ $ docker-compose build
 $ docker-compose up
 ```
 6. Check with open in the browser app http://host:port
-6. Check with open in the browser adminer http://host:adminer_port
+7. Documentation using swagger on http://host:port/docs/index.html
+8. Check with open in the browser adminer http://host:adminer_port
