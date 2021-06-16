@@ -139,6 +139,28 @@ paths:
       tags:
       - Users
   /user/{uuid}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete user
+      parameters:
+      - description: User UUID
+        in: path
+        name: uuid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.ResponseModel'
+      security:
+      - JWTAuth: []
+      summary: Get Delete User
+      tags:
+      - Users
     get:
       consumes:
       - application/json
@@ -164,14 +186,14 @@ paths:
     put:
       consumes:
       - application/json
-      description: Create user
+      description: Update user
       parameters:
       - description: User UUID
         in: path
         name: uuid
         required: true
         type: string
-      - description: Create User
+      - description: Update User
         in: body
         name: user
         required: true
@@ -186,7 +208,7 @@ paths:
             $ref: '#/definitions/utils.ResponseModel'
       security:
       - JWTAuth: []
-      summary: Create User
+      summary: Update User
       tags:
       - Users
   /user/login:

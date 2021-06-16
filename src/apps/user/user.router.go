@@ -12,5 +12,5 @@ func UserRouter(router *gin.RouterGroup) {
 	router.GET("/:uuid", GetUserDetail)
 	router.POST("/", CreateUser)
 	router.PUT("/:uuid", UpdateUser)
-	router.DELETE("/:uuid", CreateUser)
+	router.DELETE("/:uuid", DeleteUser)
 }

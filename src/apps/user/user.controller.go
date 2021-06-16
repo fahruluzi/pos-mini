@@ -300,3 +300,32 @@ func UpdateUser(c *gin.Context) {
 
 	response.ResponseFormatter(http.StatusOK, "Successfully Update User", nil, gin.H{"updatedUUID": userUUID})
 }
+
+// * Get Delete godoc
+// @Summary Get Delete User
+// @Description Delete user
+// @Tags Users
+// @Param uuid path string true "User UUID"
+// @Accept  json
+// @Produce  json
+// @Security JWTAuth
+// @Success 200 {object} utils.ResponseModel
+// @Router /user/{uuid} [delete]
+func DeleteUser(c *gin.Context) {
+	response := utils.Response{C: c}
+	getUuid := c.Param("uuid")
+
+	ok := utils.ValidateUuid(getUuid)
+	if !ok {
+		response.ResponseFormatter(http.StatusBadRequest, "Invalid UUID", nil, nil)
+		return
+	}
+
+	userUUID, result := Delete(getUuid)
+	if result.Error != nil {
+		response.ResponseFormatter(http.StatusInternalServerError, "Major Not Found", result.Error, gin.H{"err_message": result.Error.Error()})
+		return
+	}
+
+	response.ResponseFormatter(http.StatusOK, "Successfully Delete User", nil, gin.H{"deletedUUID": userUUID})
+}

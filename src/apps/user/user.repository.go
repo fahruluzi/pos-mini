@@ -24,6 +24,14 @@ func Update(user Users, uuid string) (updatedUUID string, result *gorm.DB) {
 	return
 }
 
+func Delete(uuid string) (deletedUUID string, result *gorm.DB) {
+	db := db.GetDB()
+	log.Print("user uuid before repo delete: ", uuid)
+	result = db.Where("uuid = ?", uuid).Delete(&Users{})
+	deletedUUID = uuid
+	return
+}
+
 func GetUserByEmail(email string) (Users, error) {
 	db := db.GetDB()
 	userLogin := Users{}

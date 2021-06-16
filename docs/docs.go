@@ -226,7 +226,7 @@ var doc = `{
                         "JWTAuth": []
                     }
                 ],
-                "description": "Create user",
+                "description": "Update user",
                 "consumes": [
                     "application/json"
                 ],
@@ -236,7 +236,7 @@ var doc = `{
                 "tags": [
                     "Users"
                 ],
-                "summary": "Create User",
+                "summary": "Update User",
                 "parameters": [
                     {
                         "type": "string",
@@ -246,13 +246,48 @@ var doc = `{
                         "required": true
                     },
                     {
-                        "description": "Create User",
+                        "description": "Update User",
                         "name": "user",
                         "in": "body",
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/user.UpdateUserValidator"
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseModel"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "JWTAuth": []
+                    }
+                ],
+                "description": "Delete user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get Delete User",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User UUID",
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
