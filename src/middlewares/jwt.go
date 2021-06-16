@@ -11,7 +11,7 @@ import (
 func JWTAuthMiddleware(auto401 bool) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		response := utils.Response{C: c}
-		c.Set("my_user_model", "")
+		c.Set("my_user_model", 0)
 		authHeader := c.GetHeader("access_token")
 		if auto401 {
 			if len(authHeader) <= 0 {

@@ -10,8 +10,9 @@ import (
 
 type DataJWT struct {
 	jwt.StandardClaims
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	Name         string `json:"name"`
+	Email        string `json:"email"`
+	MerchantUuid string `json:"merchant"`
 }
 
 var APPLICATION_NAME = "POS Mini"
@@ -19,14 +20,15 @@ var LOGIN_EXPIRATION_DURATION = time.Duration(1) * time.Hour
 var JWT_SIGNING_METHOD = jwt.SigningMethodHS256
 var JWT_SIGNATURE_KEY = []byte(os.Getenv("API_JWT_SECRET"))
 
-func GenerateJWT(name string, email string) (string, error) {
+func GenerateJWT(name string, email string, merchantUuid string) (string, error) {
 	claims := DataJWT{
 		StandardClaims: jwt.StandardClaims{
 			Issuer:    APPLICATION_NAME,
 			ExpiresAt: time.Now().Add(LOGIN_EXPIRATION_DURATION).Unix(),
 		},
-		Name:  name,
-		Email: email,
+		Name:         name,
+		Email:        email,
+		MerchantUuid: merchantUuid,
 	}
 
 	token := jwt.NewWithClaims(

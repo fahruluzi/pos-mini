@@ -3,6 +3,7 @@ package user
 import (
 	"net/http"
 
+	"github.com/dgrijalva/jwt-go"
 	"github.com/fahruluzi/pos-mini/src/apps/merchant"
 	"github.com/fahruluzi/pos-mini/src/utils"
 	"github.com/gin-gonic/gin"
@@ -54,7 +55,7 @@ func UserCreate(c *gin.Context) {
 		return
 	}
 
-	token, err := utils.GenerateJWT(newUser.Name, newUser.Email)
+	token, err := utils.GenerateJWT(newUser.Name, newUser.Email, newUser.MerchantUuid)
 	if err != nil {
 		response.ResponseFormatter(http.StatusInternalServerError, "Failed Create Token JWT", err, gin.H{
 			"message": err.Error(),
@@ -102,7 +103,7 @@ func UserLogin(c *gin.Context) {
 		return
 	}
 
-	token, err := utils.GenerateJWT(usersLogin.Name, usersLogin.Email)
+	token, err := utils.GenerateJWT(usersLogin.Name, usersLogin.Email, usersLogin.MerchantUuid)
 	if err != nil {
 		response.ResponseFormatter(http.StatusInternalServerError, "Failed Create Token JWT", err, gin.H{
 			"message": err.Error(),
@@ -186,4 +187,61 @@ func GetUserDetail(c *gin.Context) {
 	}
 
 	response.ResponseFormatter(http.StatusOK, "List Majors", nil, gin.H{"data": userDetail})
+}
+
+// * Create User godoc
+// @Summary Create User
+// @Description Create user
+// @Tags Users
+// @Param user body CreateUserValidator true "Create User"
+// @Accept  json
+// @Produce  json
+// @Security JWTAuth
+// @Success 200 {object} utils.ResponseModel
+// @Router /user [post]
+func CreateUser(c *gin.Context) {
+	response := utils.Response{C: c}
+	createUserValidator := NewCreateUserValidator()
+	reqData, _ := c.MustGet("my_user_model").(jwt.MapClaims)
+
+	if err := createUserValidator.Bind(c); err != nil {
+		response.ResponseFormatter(http.StatusNotAcceptable, "Invalid Form", err, gin.H{"err_message": err.Error()})
+		return
+	}
+
+	if createUserValidator.Password != createUserValidator.CorfirmationPassword {
+		response.ResponseFormatter(http.StatusBadRequest, "Invalid Form", nil, gin.H{"error": map[string]string{
+			"confirm_password": "not match",
+		}})
+		return
+	}
+
+	hashPassword, _ := utils.HashPassword(createUserValidator.Password)
+
+	newUser := Users{
+		Name:         createUserValidator.FullName,
+		Email:        createUserValidator.Email,
+		Password:     hashPassword,
+		MerchantUuid: reqData["merchant"].(string),
+	}
+
+	ok := utils.ValidateUuid(newUser.MerchantUuid)
+	if !ok {
+		response.ResponseFormatter(http.StatusBadRequest, "Invalid Merchant UUID", nil, nil)
+		return
+	}
+
+	_, err := merchant.GetMerchant(newUser.MerchantUuid)
+	if err != nil {
+		response.ResponseFormatter(http.StatusBadRequest, "Invalid Merchant UUID", nil, nil)
+		return
+	}
+
+	userUUID, resultSaveUser := Save(newUser)
+	if resultSaveUser.Error != nil {
+		response.ResponseFormatter(http.StatusInternalServerError, "Failed Save data", resultSaveUser.Error, nil)
+		return
+	}
+
+	response.ResponseFormatter(http.StatusOK, "Successfully Create User", nil, gin.H{"insertedUUID": userUUID})
 }

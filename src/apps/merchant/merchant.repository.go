@@ -14,3 +14,16 @@ func Save(merchant Merchants) (insertedUUID string, result *gorm.DB) {
 	insertedUUID = merchant.UUID
 	return
 }
+
+func GetMerchant(uuid string) (Merchants, error) {
+	db := db.GetDB()
+	var getMerchant Merchants
+
+	err := db.Model(&Merchants{}).Where("uuid = ?", uuid).First(&getMerchant).Error
+
+	if err != nil {
+		return Merchants{}, err
+	}
+
+	return getMerchant, nil
+}

@@ -1,4 +1,20 @@
 definitions:
+  user.CreateUserValidator:
+    properties:
+      confirmation_password:
+        type: string
+      email:
+        type: string
+      full_name:
+        type: string
+      password:
+        type: string
+    required:
+    - confirmation_password
+    - email
+    - full_name
+    - password
+    type: object
   user.LoginValidator:
     properties:
       email:
@@ -81,6 +97,29 @@ paths:
       security:
       - JWTAuth: []
       summary: Get List User
+      tags:
+      - Users
+    post:
+      consumes:
+      - application/json
+      description: Create user
+      parameters:
+      - description: Create User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/user.CreateUserValidator'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.ResponseModel'
+      security:
+      - JWTAuth: []
+      summary: Create User
       tags:
       - Users
   /user/{uuid}:
