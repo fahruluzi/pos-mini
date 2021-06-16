@@ -1,0 +1,54 @@
+version: '3'
+
+services:
+  database:
+    container_name: posmini_db
+    image: postgres
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - ./postgres-data:/data/postgres
+    ports:
+      - ${POSTGRES_PORT}:5432
+    networks:
+      - api
+  adminer:
+    image: adminer
+    container_name: posmini_adminer
+    restart: always
+    ports:
+      - ${ADMINER_PORT}:8080
+    links:
+      - database
+    networks:
+      - api
+    tty: true
+  app:
+    env_file:
+      - .env
+    container_name: posmini_app
+    restart: unless-stopped
+    build: 
+      context: .
+      dockerfile: images/api/Dockerfile
+    ports:
+      - ${PORT}:15061
+    depends_on:
+      - database 
+    working_dir: /go/src/app
+    volumes:
+      - .:/go/src/app
+    command: ${API_COMMAND}
+    networks:
+      - api
+    links:
+      - database
+volumes:
+  data:
+    driver: local
+networks:
+  api:
+    name: posmini_network
+    driver: bridge 

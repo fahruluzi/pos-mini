@@ -16,3 +16,4 @@
 
 # Enviroment
 .env
+postgres-data
