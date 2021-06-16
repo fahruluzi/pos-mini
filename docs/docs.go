@@ -51,6 +51,234 @@ var doc = `{
                 }
             }
         },
+        "/product": {
+            "get": {
+                "security": [
+                    {
+                        "JWTAuth": []
+                    }
+                ],
+                "description": "List product",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get List Product",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseModel"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "JWTAuth": []
+                    }
+                ],
+                "description": "Create product",
+                "consumes": [
+                    "application/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Create Product",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Product Name",
+                        "name": "product_name",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "Product Image",
+                        "name": "product_image",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Product Price",
+                        "name": "product_price",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Product Actual Price",
+                        "name": "product_actual_price",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Product Stock",
+                        "name": "product_stock",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseModel"
+                        }
+                    }
+                }
+            }
+        },
+        "/product/{uuid}": {
+            "get": {
+                "security": [
+                    {
+                        "JWTAuth": []
+                    }
+                ],
+                "description": "Detail product",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get Detail Product",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Product UUID",
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseModel"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "JWTAuth": []
+                    }
+                ],
+                "description": "Delete product",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get Delete Product",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Product UUID",
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseModel"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [
+                    {
+                        "JWTAuth": []
+                    }
+                ],
+                "description": "Update product",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Update Product",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Product UUID",
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Product Name",
+                        "name": "product_name",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "file",
+                        "description": "Product Image",
+                        "name": "product_image",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Product Price",
+                        "name": "product_price",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Product Actual Price",
+                        "name": "product_actual_price",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Product Stock",
+                        "name": "product_stock",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ResponseModel"
+                        }
+                    }
+                }
+            }
+        },
         "/user": {
             "get": {
                 "security": [
@@ -333,10 +561,12 @@ var doc = `{
             ],
             "properties": {
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "email@email.com"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "P@SSword1234"
                 }
             }
         },

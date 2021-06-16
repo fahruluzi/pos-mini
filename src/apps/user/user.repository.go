@@ -69,26 +69,26 @@ func CountUsers() (int, error) {
 
 func GetUser(uuid string) (UsersList, error) {
 	db := db.GetDB()
-	var getMajor UsersList
+	var getUser UsersList
 
-	err := db.Model(&Users{}).Where("uuid = ?", uuid).First(&getMajor).Error
+	err := db.Model(&Users{}).Where("uuid = ?", uuid).First(&getUser).Error
 
 	if err != nil {
 		return UsersList{}, err
 	}
 
-	return getMajor, nil
+	return getUser, nil
 }
 
 func GetUserWithPassword(uuid string) (Users, error) {
 	db := db.GetDB()
-	var getMajor Users
+	var getUser Users
 
-	err := db.Model(&Users{}).Where("uuid = ?", uuid).First(&getMajor).Error
+	err := db.Model(&Users{}).Where("uuid = ?", uuid).First(&getUser).Error
 
 	if err != nil {
 		return Users{}, err
 	}
 
-	return getMajor, nil
+	return getUser, nil
 }

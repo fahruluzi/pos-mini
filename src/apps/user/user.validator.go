@@ -28,8 +28,8 @@ func (registerValidator *RegisterValidator) Bind(c *gin.Context) (err error) {
 }
 
 type LoginValidator struct {
-	Email    string `form:"email" json:"email" binding:"required,email"`
-	Password string `form:"password" json:"password" binding:"required"`
+	Email    string `form:"email" json:"email" binding:"required,email" example:"email@email.com"`
+	Password string `form:"password" json:"password" binding:"required" example:"P@SSword1234"`
 }
 
 func NewLoginValidator() LoginValidator {

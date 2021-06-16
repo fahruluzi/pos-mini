@@ -18,8 +18,10 @@ definitions:
   user.LoginValidator:
     properties:
       email:
+        example: email@email.com
         type: string
       password:
+        example: P@SSword1234
         type: string
     required:
     - email
@@ -98,6 +100,152 @@ paths:
       summary: Pinging App
       tags:
       - Default
+  /product:
+    get:
+      consumes:
+      - application/json
+      description: List product
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.ResponseModel'
+      security:
+      - JWTAuth: []
+      summary: Get List Product
+      tags:
+      - Products
+    post:
+      consumes:
+      - application/form-data
+      description: Create product
+      parameters:
+      - description: Product Name
+        in: formData
+        name: product_name
+        required: true
+        type: string
+      - description: Product Image
+        in: formData
+        name: product_image
+        required: true
+        type: file
+      - description: Product Price
+        in: formData
+        name: product_price
+        required: true
+        type: integer
+      - description: Product Actual Price
+        in: formData
+        name: product_actual_price
+        required: true
+        type: integer
+      - description: Product Stock
+        in: formData
+        name: product_stock
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.ResponseModel'
+      security:
+      - JWTAuth: []
+      summary: Create Product
+      tags:
+      - Products
+  /product/{uuid}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete product
+      parameters:
+      - description: Product UUID
+        in: path
+        name: uuid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.ResponseModel'
+      security:
+      - JWTAuth: []
+      summary: Get Delete Product
+      tags:
+      - Products
+    get:
+      consumes:
+      - application/json
+      description: Detail product
+      parameters:
+      - description: Product UUID
+        in: path
+        name: uuid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.ResponseModel'
+      security:
+      - JWTAuth: []
+      summary: Get Detail Product
+      tags:
+      - Products
+    patch:
+      consumes:
+      - application/json
+      description: Update product
+      parameters:
+      - description: Product UUID
+        in: path
+        name: uuid
+        required: true
+        type: string
+      - description: Product Name
+        in: formData
+        name: product_name
+        type: string
+      - description: Product Image
+        in: formData
+        name: product_image
+        type: file
+      - description: Product Price
+        in: formData
+        name: product_price
+        type: integer
+      - description: Product Actual Price
+        in: formData
+        name: product_actual_price
+        type: integer
+      - description: Product Stock
+        in: formData
+        name: product_stock
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.ResponseModel'
+      security:
+      - JWTAuth: []
+      summary: Update Product
+      tags:
+      - Products
   /user:
     get:
       consumes:

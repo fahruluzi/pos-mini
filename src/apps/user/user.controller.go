@@ -152,7 +152,7 @@ func GetListUser(c *gin.Context) {
 
 	countTotalPage := utils.CountTotalPage(countUsers, &pg)
 
-	response.ResponseFormatter(http.StatusOK, "List Majors", nil, gin.H{
+	response.ResponseFormatter(http.StatusOK, "List Users", nil, gin.H{
 		"data":       users,
 		"total_data": countUsers,
 		"total_page": countTotalPage,
@@ -182,11 +182,11 @@ func GetUserDetail(c *gin.Context) {
 
 	userDetail, err := GetUser(getUuid)
 	if err != nil {
-		response.ResponseFormatter(http.StatusNotFound, "Major Not Found", err, gin.H{"err_message": err.Error()})
+		response.ResponseFormatter(http.StatusNotFound, "User Not Found", err, gin.H{"err_message": err.Error()})
 		return
 	}
 
-	response.ResponseFormatter(http.StatusOK, "List Majors", nil, gin.H{"data": userDetail})
+	response.ResponseFormatter(http.StatusOK, "List Users", nil, gin.H{"data": userDetail})
 }
 
 // * Create User godoc
@@ -275,7 +275,7 @@ func UpdateUser(c *gin.Context) {
 
 	userDetail, err := GetUserWithPassword(getUuid)
 	if err != nil {
-		response.ResponseFormatter(http.StatusNotFound, "Major Not Found", err, gin.H{"err_message": err.Error()})
+		response.ResponseFormatter(http.StatusNotFound, "User Not Found", err, gin.H{"err_message": err.Error()})
 		return
 	}
 
@@ -323,7 +323,7 @@ func DeleteUser(c *gin.Context) {
 
 	userUUID, result := Delete(getUuid)
 	if result.Error != nil {
-		response.ResponseFormatter(http.StatusInternalServerError, "Major Not Found", result.Error, gin.H{"err_message": result.Error.Error()})
+		response.ResponseFormatter(http.StatusInternalServerError, "User Not Found", result.Error, gin.H{"err_message": result.Error.Error()})
 		return
 	}
 

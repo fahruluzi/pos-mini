@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/fahruluzi/pos-mini/docs"
+	"github.com/fahruluzi/pos-mini/src/apps/product"
 	"github.com/fahruluzi/pos-mini/src/apps/user"
 	"github.com/fahruluzi/pos-mini/src/middlewares"
 	"github.com/fahruluzi/pos-mini/src/utils"
@@ -56,6 +57,7 @@ func Router() *gin.Engine {
 
 	v1.Use(middlewares.JWTAuthMiddleware(true))
 	user.UserRouter(v1.Group("/user"))
+	product.ProductRouter(v1.Group("/product"))
 
 	return r
 }
