@@ -64,3 +64,23 @@ func (createUserValidator *CreateUserValidator) Bind(c *gin.Context) (err error)
 
 	return
 }
+
+type UpdateUserValidator struct {
+	FullName    string `form:"full_name" json:"full_name" binding:"required"`
+	Email       string `form:"email" json:"email" binding:"required,email"`
+	NewPassword string `form:"new_password" json:"new_password" binding:"required"`
+	OldPassword string `form:"old_password" json:"old_password" binding:"required"`
+}
+
+func NewUpdateUserValidator() UpdateUserValidator {
+	return UpdateUserValidator{}
+}
+
+func (createUserValidator *UpdateUserValidator) Bind(c *gin.Context) (err error) {
+	err = c.ShouldBindJSON(&createUserValidator)
+	if err != nil {
+		return err
+	}
+
+	return
+}

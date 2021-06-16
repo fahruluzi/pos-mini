@@ -245,3 +245,58 @@ func CreateUser(c *gin.Context) {
 
 	response.ResponseFormatter(http.StatusOK, "Successfully Create User", nil, gin.H{"insertedUUID": userUUID})
 }
+
+// * Update User godoc
+// @Summary Update User
+// @Description Update user
+// @Tags Users
+// @Param uuid path string true "User UUID"
+// @Param user body UpdateUserValidator true "Update User"
+// @Accept  json
+// @Produce  json
+// @Security JWTAuth
+// @Success 200 {object} utils.ResponseModel
+// @Router /user/{uuid} [put]
+func UpdateUser(c *gin.Context) {
+	response := utils.Response{C: c}
+	updateUserValidator := NewUpdateUserValidator()
+	getUuid := c.Param("uuid")
+
+	if err := updateUserValidator.Bind(c); err != nil {
+		response.ResponseFormatter(http.StatusNotAcceptable, "Invalid Form", err, gin.H{"err_message": err.Error()})
+		return
+	}
+
+	ok := utils.ValidateUuid(getUuid)
+	if !ok {
+		response.ResponseFormatter(http.StatusBadRequest, "Invalid UUID", nil, nil)
+		return
+	}
+
+	userDetail, err := GetUserWithPassword(getUuid)
+	if err != nil {
+		response.ResponseFormatter(http.StatusNotFound, "Major Not Found", err, gin.H{"err_message": err.Error()})
+		return
+	}
+
+	if !utils.CheckPasswordHash(updateUserValidator.OldPassword, userDetail.Password) {
+		response.ResponseFormatter(http.StatusBadRequest, "Password Wrong", nil, gin.H{"err_message": "Old Password is Wrong"})
+		return
+	}
+
+	hashPassword, _ := utils.HashPassword(updateUserValidator.NewPassword)
+
+	newUser := Users{
+		Name:     updateUserValidator.FullName,
+		Email:    updateUserValidator.Email,
+		Password: hashPassword,
+	}
+
+	userUUID, resultUpdateUser := Update(newUser, getUuid)
+	if resultUpdateUser.Error != nil {
+		response.ResponseFormatter(http.StatusInternalServerError, "Failed Update data", resultUpdateUser.Error, nil)
+		return
+	}
+
+	response.ResponseFormatter(http.StatusOK, "Successfully Update User", nil, gin.H{"updatedUUID": userUUID})
+}

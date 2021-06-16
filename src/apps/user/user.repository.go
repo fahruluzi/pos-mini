@@ -16,6 +16,14 @@ func Save(user Users) (insertedUUID string, result *gorm.DB) {
 	return
 }
 
+func Update(user Users, uuid string) (updatedUUID string, result *gorm.DB) {
+	db := db.GetDB()
+	log.Print("user obj before repo update: ", user)
+	result = db.Model(&Users{}).Where("uuid=?", uuid).Updates(&user)
+	updatedUUID = uuid
+	return
+}
+
 func GetUserByEmail(email string) (Users, error) {
 	db := db.GetDB()
 	userLogin := Users{}
@@ -59,6 +67,19 @@ func GetUser(uuid string) (UsersList, error) {
 
 	if err != nil {
 		return UsersList{}, err
+	}
+
+	return getMajor, nil
+}
+
+func GetUserWithPassword(uuid string) (Users, error) {
+	db := db.GetDB()
+	var getMajor Users
+
+	err := db.Model(&Users{}).Where("uuid = ?", uuid).First(&getMajor).Error
+
+	if err != nil {
+		return Users{}, err
 	}
 
 	return getMajor, nil

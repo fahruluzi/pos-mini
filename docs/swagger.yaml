@@ -50,6 +50,22 @@ definitions:
     - merchant_phone
     - password
     type: object
+  user.UpdateUserValidator:
+    properties:
+      email:
+        type: string
+      full_name:
+        type: string
+      new_password:
+        type: string
+      old_password:
+        type: string
+    required:
+    - email
+    - full_name
+    - new_password
+    - old_password
+    type: object
   utils.ResponseModel:
     properties:
       code:
@@ -143,6 +159,34 @@ paths:
       security:
       - JWTAuth: []
       summary: Get Detail User
+      tags:
+      - Users
+    put:
+      consumes:
+      - application/json
+      description: Create user
+      parameters:
+      - description: User UUID
+        in: path
+        name: uuid
+        required: true
+        type: string
+      - description: Create User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/user.UpdateUserValidator'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.ResponseModel'
+      security:
+      - JWTAuth: []
+      summary: Create User
       tags:
       - Users
   /user/login:
